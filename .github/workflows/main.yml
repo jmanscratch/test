@@ -1,0 +1,21 @@
+name: Build VPK
+on:
+  push:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: vitasdk/vitasdk:latest
+    env:
+      VITASDK: /usr/local/vitasdk
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: |
+          mkdir build && cd build
+          cmake ..
+          make
+      - uses: actions/upload-artifact@v4
+        with:
+          name: vita_brawl_vpk
+          path: build/vita_brawl.vpk
